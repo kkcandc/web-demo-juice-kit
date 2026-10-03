@@ -1,0 +1,31 @@
+{
+  "name": "web-demo-juice-kit",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Reusable hit-stop, camera kick, sparks, SFX, and arcade HUD for kkcandc browser demos.",
+  "exports": {
+    ".": "./src/juice/index.ts",
+    "./fightClock": "./src/juice/fightClock.ts",
+    "./hitStop": "./src/juice/hitStop.ts",
+    "./cameraKick": "./src/juice/cameraKick.ts",
+    "./sparks": "./src/juice/sparks.ts",
+    "./layeredHitSfx": "./src/juice/layeredHitSfx.ts",
+    "./arcadeHud": "./src/juice/arcadeHud.ts"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 0.0.0.0 --port 4173",
+    "test": "tsx src/selftest.ts"
+  },
+  "dependencies": {
+    "three": "^0.186.1"
+  },
+  "devDependencies": {
+    "@types/three": "^0.186.0",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.5"
+  }
+}
