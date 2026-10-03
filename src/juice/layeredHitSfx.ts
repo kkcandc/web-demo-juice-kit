@@ -19,8 +19,8 @@ export type SfxLayer = 'swing' | 'tick' | 'body' | 'spark' | 'sub';
 export interface LayeredHitSfx {
   /** Null until the first unlock or play attempt. */
   readonly context: AudioContext | null;
-  /** Call from a click or key so the browser lets sound start. */
-  unlock(): Promise<void>;
+  /** Call from a click or key so the browser lets sound start. Resolves true when audio is running. */
+  unlock(): Promise<boolean>;
   playSwing(): void;
   playHit(tier: HitTier): void;
   /** Replace one procedural layer. Pass null to go back to synthesis. */
@@ -168,12 +168,12 @@ export function createLayeredHitSfx(): LayeredHitSfx {
     },
     async unlock() {
       const audio = ensureGraph();
-      if (!audio) return;
+      if (!audio) return false;
       if (audio.state === 'suspended') {
         try {
           await audio.resume();
         } catch {
-          return;
+          return false;
         }
       }
       if (audio.state === 'running' && pending) {
@@ -182,6 +182,7 @@ export function createLayeredHitSfx(): LayeredHitSfx {
         if (job.kind === 'swing') playSwingNow();
         else playHitNow(job.tier);
       }
+      return audio.state === 'running';
     },
     playSwing() {
       playOrQueue({ kind: 'swing' });

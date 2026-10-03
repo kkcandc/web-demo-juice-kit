@@ -34,7 +34,7 @@ renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.12;
 renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.shadowMap.type = THREE.PCFShadowMap;
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setClearColor(0x120c16, 1);
 
@@ -160,8 +160,8 @@ function requestPunch() {
 }
 
 async function punchFromUser() {
-  await sfx.unlock();
-  if (soundReadout) soundReadout.textContent = 'SOUND ON';
+  const audible = await sfx.unlock();
+  if (soundReadout) soundReadout.textContent = audible ? 'SOUND ON' : 'TAP AGAIN FOR SOUND';
   requestPunch();
 }
 
